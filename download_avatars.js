@@ -45,7 +45,7 @@ function printURLs(jsonObject) {
 
   for (var i = 0; i < jsonObject.length; i++) {
     var avatarURLs = jsonObject[i].avatar_url;
-    downloadImageByURL(avatarURLs, `./${jsonObject[i].login}.jpg`);
+    downloadImageByURL(avatarURLs, `./avatars/${jsonObject[i].login}.jpg`);
   }
 }
 
