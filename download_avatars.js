@@ -1,4 +1,5 @@
 var request = require('request');
+var fs = require('fs');
 
 var GITHUB_USER = "julierivest";
 var GITHUB_TOKEN = "44a05436bb2e0a3fc2957a380376abe46655485c";
@@ -35,12 +36,28 @@ function getRepoContributors(repoOwner, repoName, cb) {
 
 
 function printURLs(jsonObject) {
-  console.log(jsonObject);
+
   for (var i = 0; i < jsonObject.length; i++) {
     var avatarURLs = jsonObject[i].avatar_url;
-    console.log(avatarURLs);
+    downloadImageByURL(avatarURLs, `./${jsonObject[i].login}.jpg`);
   }
 }
+
+
+function downloadImageByURL(url, filePath) {
+  var options = {
+  url: url,
+  headers: {
+    'User-Agent': 'GitHub Avatar Downloader - Student Project'
+  }
+  }
+  request.get(options)
+    .on('response', function(response){
+      response.pipe(fs.createWriteStream(filePath));
+    })
+}
+
+
 
 
 
