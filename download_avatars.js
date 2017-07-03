@@ -7,8 +7,14 @@ var GITHUB_TOKEN = "44a05436bb2e0a3fc2957a380376abe46655485c";
 
 
 
-function getRepoContributors(repoOwner, repoName, cb) {
-  var requestURL = 'https://'+ GITHUB_USER + ':' + GITHUB_TOKEN + '@api.github.com/repos/' + repoOwner + '/' + repoName + '/contributors';
+function getRepoContributors(cb) {
+  var args = process.argv.slice(2);
+    if (!args[0] || !args[1]) {
+      throw new Error("MISSING ARGUMENT/S");
+    }
+
+
+  var requestURL = 'https://'+ GITHUB_USER + ':' + GITHUB_TOKEN + '@api.github.com/repos/' + args[0] + '/' + args[1] + '/contributors';
 
   var options = {
   url: requestURL,
@@ -52,8 +58,8 @@ function downloadImageByURL(url, filePath) {
   }
   }
   request.get(options)
-    .on('response', function(response){
-      response.pipe(fs.createWriteStream(filePath));
+         .on('response', function(response){
+         response.pipe(fs.createWriteStream(filePath));
     })
 }
 
@@ -61,7 +67,7 @@ function downloadImageByURL(url, filePath) {
 
 
 
-getRepoContributors("jquery", "jquery", printURLs);
+getRepoContributors(printURLs);
 
 
 
